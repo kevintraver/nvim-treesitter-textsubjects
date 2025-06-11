@@ -60,9 +60,9 @@ Builtin Text Subject Queries | Description                                      
 
 Supported Languages:
     - `textsubjects-smart`: `C`, `C++`, `Lua`, `Rust`, `Go`, `Ruby`, `Php`,
-      `Python`, `Elixir`, `Julia`, `Fennel`
+      `Python`, `Elixir`, `Julia`, `Fennel`, `JSON`
     - `textsubjects-container-outer`: `C`, `C++`, `Lua`, `Rust`, `Go`, `Ruby`,
-      `Php`, `Python`, `Elixir`, `Julia`, `Fennel`
+      `Php`, `Python`, `Elixir`, `Julia`, `Fennel`, `JSON`
     - `textsubjects-container-inner`: `C`, `C++`, `Lua`, `Rust`, `Go`, `Ruby`,
       `Php`, `Python`, `Fennel`
 
