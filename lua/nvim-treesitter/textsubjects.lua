@@ -43,6 +43,21 @@ local function extend_range_with_whitespace(range)
     local endline_len = #endline
     local endline_whitespace_len = #string.match(endline, '^(%s*)', 1)
 
+    -- Extend to include trailing delimiter (comma, semicolon) only if it would
+    -- make the selection cover the entire line (enabling linewise mode)
+    -- This handles cases where tree-sitter queries don't capture the delimiter
+    if startline_whitespace_len == startline_len then
+        -- Everything before selection is whitespace, check if trailing delimiter
+        -- followed by only whitespace would complete the line
+        local delim_and_rest = string.match(endline, '^([,;]%s*)$')
+        if delim_and_rest then
+            end_col = end_col + #delim_and_rest
+            endline = ''
+            endline_len = 0
+            endline_whitespace_len = 0
+        end
+    end
+
     local sel_mode
     if startline_whitespace_len == startline_len and endline_whitespace_len == endline_len then
         -- the text objects is the only thing on the lines in the range so we
@@ -110,7 +125,8 @@ local function update_selection(bufnr, range, mode)
         vim.api.nvim_win_set_cursor(0, { end_row + 1, end_col })
     else
         vim.cmd('normal! v')
-        vim.api.nvim_win_set_cursor(0, { end_row + 1, end_col })
+        -- tree-sitter end_col is exclusive, vim visual mode is inclusive
+        vim.api.nvim_win_set_cursor(0, { end_row + 1, math.max(0, end_col - 1) })
     end
 end
 
